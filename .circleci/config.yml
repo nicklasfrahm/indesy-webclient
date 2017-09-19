@@ -24,6 +24,6 @@ jobs:
           name: "Deploy to Production"
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ssh root@indesy.atombyte.de -p 61000 'rm -r /var/www/html/*'
-              scp -P 61000 -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
+              ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/*'
+              scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
             fi
