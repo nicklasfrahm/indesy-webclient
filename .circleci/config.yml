@@ -20,10 +20,3 @@ jobs:
       - run:
           name: "Build Application"
           command: npm run build
-      - deploy:
-          name: "Deploy to Production"
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/*'
-              scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
-            fi
