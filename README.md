@@ -1,4 +1,7 @@
 # INDESY - Indoor delivery system
+[![CircleCI](https://circleci.com/gh/nicklasfrahm/indoor-delivery-system.svg?style=svg)](https://circleci.com/gh/nicklasfrahm/indoor-delivery-system)
+
+## Description
 The web application for an indoor delivery system. The web application will be used to manage mapping data and to control the indoor delivery system.
 
 ## Installation
