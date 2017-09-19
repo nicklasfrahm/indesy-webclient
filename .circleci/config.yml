@@ -8,18 +8,22 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: npm install
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: 
+          name: "Install Dependencies"
+          command: npm install
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run build
-      - type: deploy
-          name: "Deploy to production"
-        command: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            ssh root@indesy.atombyte.de -p 61000 'rm -r /var/www/html/*'
-            scp -P 61000 -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
-          fi
+      - run:
+          name: "Build Application"
+          command: npm run build
+      - deploy:
+          name: "Deploy to Production"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ssh root@indesy.atombyte.de -p 61000 'rm -r /var/www/html/*'
+              scp -P 61000 -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
+            fi
