@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "The web application for an indoor delivery system.",
   "scripts": {
-    "start":
-      "webpack-dev-server --open --hot --inline --history-api-fallback --config webpack.dev.js",
+    "start": "webpack-dev-server --open --hot --inline --history-api-fallback --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
-  "keywords": ["web", "application", "indoor", "delivery", "system"],
+  "keywords": [
+    "web",
+    "application",
+    "indoor",
+    "delivery",
+    "system"
+  ],
   "author": "nicklasfrahm",
   "license": "MIT",
   "devDependencies": {
@@ -26,8 +31,11 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "coord-convert": "1.0.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
+    "react-geolocated": "2.0.0",
+    "react-router-dom": "4.2.2",
     "semantic-ui-css": "2.2.12",
     "semantic-ui-react": "0.73.1"
   }
