@@ -1,42 +1,42 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/indoor-delivery-system
-    docker:
-      - image: circleci/node:7.10
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: 
-          name: "Install Dependencies"
-          command: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run:
-          name: "Build Application"
-          command: npm run build
-  deploy:
-    working_directory: ~/indoor-delivery-system
-    docker:
-      - image: circleci/node:7.10
-    steps:
-      - run:
-          name: "Prepare Deployment"
-          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/*'
-      - run:
-          name: "Deploy to Production"
-          command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
+  - build:
+      working_directory: ~/indoor-delivery-system
+      docker:
+        - image: circleci/node:7.10
+      steps:
+        - checkout
+        - restore_cache:
+            keys:
+              - v1-dependencies-{{ checksum "package.json" }}
+              - v1-dependencies-
+        - run: 
+            name: "Install Dependencies"
+            command: npm install
+        - save_cache:
+            paths:
+              - node_modules
+            key: v1-dependencies-{{ checksum "package.json" }}
+        - run:
+            name: "Build Application"
+            command: npm run build
+  - deploy:
+      working_directory: ~/indoor-delivery-system
+      docker:
+        - image: circleci/node:7.10
+      steps:
+        - run:
+            name: "Prepare Deployment"
+            command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/*'
+        - run:
+            name: "Deploy to Production"
+            command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
 workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
-      - deploy
+      build
+      deploy
           requires:
             - build
           filters:
