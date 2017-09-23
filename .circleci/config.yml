@@ -33,7 +33,7 @@ jobs:
           at: ~/indoor-delivery-system
       - run:
           name: "Prepare Deployment"
-          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/*'
+          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/* || 0'
       - run:
           name: "Deploy to Production"
           command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
