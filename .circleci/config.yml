@@ -20,10 +20,23 @@ jobs:
       - run:
           name: "Build Application"
           command: npm run build
-      - deploy:
+  deploy:
+    steps:
+      - run:
+          name: "Prepare Deployment"
+          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/*'
+      - run:
           name: "Deploy to Production"
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/*'
-              scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
-            fi
+          command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
