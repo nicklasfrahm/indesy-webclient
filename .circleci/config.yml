@@ -25,7 +25,7 @@ jobs:
       - persist_to_workspace:
           root: ~/indoor-delivery-system
           paths:
-            - build
+            - build/*
   deploy:
     <<: *defaults
     steps:
