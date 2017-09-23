@@ -1,9 +1,11 @@
+defaults: &defaults
+  working_directory: ~/indoor-delivery-system
+  docker:
+    - image: circleci/node:7.10
 version: 2
 jobs:
   build:
-    working_directory: ~/indoor-delivery-system
-    docker:
-      - image: circleci/node:7.10
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -20,8 +22,13 @@ jobs:
       - run:
           name: "Build Application"
           command: npm run build
+      - persist_to_workspace:
+          root: ~/indoor-delivery-system
   deploy:
+    <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/indoor-delivery-system
       - run:
           name: "Prepare Deployment"
           command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/*'
