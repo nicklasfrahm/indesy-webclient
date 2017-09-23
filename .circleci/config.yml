@@ -21,6 +21,9 @@ jobs:
           name: "Build Application"
           command: npm run build
   deploy:
+    working_directory: ~/indoor-delivery-system
+    docker:
+      - image: circleci/node:7.10
     steps:
       - run:
           name: "Prepare Deployment"
