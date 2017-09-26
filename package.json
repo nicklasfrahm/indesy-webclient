@@ -3,16 +3,11 @@
   "version": "1.0.0",
   "description": "The web application for an indoor delivery system.",
   "scripts": {
-    "start": "webpack-dev-server --open --hot --inline --history-api-fallback --config webpack.dev.js",
+    "start":
+      "webpack-dev-server --open --hot --inline --history-api-fallback --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
-  "keywords": [
-    "web",
-    "application",
-    "indoor",
-    "delivery",
-    "system"
-  ],
+  "keywords": ["web", "application", "indoor", "delivery", "system"],
   "author": "nicklasfrahm",
   "license": "MIT",
   "devDependencies": {
