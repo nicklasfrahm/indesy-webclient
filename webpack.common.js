@@ -8,24 +8,21 @@ module.exports = {
   entry: './client/index.js',
   plugins: [
     new CleanWebpackPlugin(['build']),
-    new HtmlWebpackPlugin({
-      template: './client/static/index.html'
-    }),
+    new HtmlWebpackPlugin({ template: './client/static/index.html' }),
     new CopyWebpackPlugin([{ from: 'client/static', ignore: 'index.html' }])
   ],
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'app.js',
-    publicPath: '/'
+    filename: 'app.js'
   },
   module: {
     loaders: [
       {
-        test: /\.(css)$/,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(js)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
@@ -35,7 +32,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[ext]'
+              name: '[name].[ext]'
             }
           }
         ]
