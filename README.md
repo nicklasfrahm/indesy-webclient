@@ -13,7 +13,7 @@ npm start
 ```
 
 ## Build
-The build will be run by webpack and the files will be written to the `build` directroy. To run the build, simply execute:
-```
+The build will be run by webpack and the files will be written to the `build` directory. To run the build, simply execute:
+```shell
 npm run build
 ```
