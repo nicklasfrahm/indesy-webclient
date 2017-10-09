@@ -17,28 +17,3 @@ The build will be run by webpack and the files will be written to the `build` di
 ```shell
 npm run build
 ```
-
-## Models
-Every model will additionally have a UUID, which will not be listed in the definition as it is common across all models.
-
-### Chunk
-This model describes a part of the map.
-```
-{
-  x: Number,
-  y: Number,
-  occupied: Number,
-  scanned: Number,
-  reference: UUID
-}
-```
-
-### Map
-The latitude and the longitude fix the according chunks in space.
-```
-{
-  name: String,
-  latitude: Number,
-  longitude: Number
-}
-```
