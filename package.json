@@ -1,5 +1,5 @@
 {
-  "name": "indoor-delivery-system-webclient",
+  "name": "indesy-webclient",
   "version": "1.0.0",
   "description": "The web application for an indoor delivery system.",
   "scripts": {
