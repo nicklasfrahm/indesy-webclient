@@ -8,6 +8,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: 
+          name: "Prepare Webclient"
+          command: cd webclient
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
