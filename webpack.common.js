@@ -5,15 +5,18 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './source/index.js',
   plugins: [
     new CleanWebpackPlugin(['build']),
-    new HtmlWebpackPlugin({ template: './client/static/index.html' }),
-    new CopyWebpackPlugin([{ from: 'client/static', ignore: 'index.html' }])
+    new HtmlWebpackPlugin({ template: './source/static/index.html' }),
+    new CopyWebpackPlugin([{ from: 'source/static', ignore: 'index.html' }])
   ],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'app.js'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
   module: {
     loaders: [
@@ -22,7 +25,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
