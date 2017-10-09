@@ -1,9 +1,9 @@
 {
-  "name": "indoor-delivery-system",
+  "name": "indoor-delivery-system-webclient",
   "version": "1.0.0",
   "description": "The web application for an indoor delivery system.",
   "scripts": {
-    "start": "webpack-dev-server --open --hot --inline --config webpack.dev.js",
+    "start": "webpack-dev-server --config webpack.dev.js --hot --inline --open",
     "build": "webpack --config webpack.prod.js"
   },
   "keywords": ["web", "application", "indoor", "delivery", "system"],
@@ -17,7 +17,7 @@
     "clean-webpack-plugin": "0.1.17",
     "copy-webpack-plugin": "4.1.0",
     "css-loader": "0.28.7",
-    "file-loader": "0.11.2",
+    "file-loader": "1.1.4",
     "html-webpack-plugin": "2.30.1",
     "style-loader": "0.18.2",
     "uglifyjs-webpack-plugin": "0.4.6",
