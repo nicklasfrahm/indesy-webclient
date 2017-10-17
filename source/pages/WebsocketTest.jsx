@@ -1,18 +1,37 @@
 import React from 'react'
-import { Segment, Header, Icon, Table, Label } from 'semantic-ui-react'
-import { getSocket, connect, disconnect } from '../socketio'
+import {
+  Segment,
+  Header,
+  Icon,
+  Table,
+  Label,
+  Statistic
+} from 'semantic-ui-react'
+import { getSocket, connect, disconnect, testTimer } from '../socketio'
 
 import FullPageGrid from '../components/FullPageGrid'
 
 class WebSocketTest extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = { connected: getSocket().connected }
-    connect(() => this.setState({ connected: true }))
-    disconnect(() => this.setState({ connected: false }))
+    super()
+    this.state = { connected: getSocket().connected, timestamp: null }
+    connect(() =>
+      this.setState(Object.assign({}, this.state, { connected: true }))
+    )
+    disconnect(() =>
+      this.setState(Object.assign({}, this.state, { connected: true }))
+    )
+    testTimer(data =>
+      this.setState(
+        Object.assign({}, this.state, { timestamp: data.timestamp })
+      )
+    )
   }
 
   render() {
+    const connected = this.state.connected
+    const timestamp = this.state.timestamp
+    const delay = timestamp ? Date.now() - timestamp : 0
     return (
       <FullPageGrid>
         <Segment raised>
@@ -21,12 +40,18 @@ class WebSocketTest extends React.Component {
             <Header.Content>Websocket Test</Header.Content>
           </Header>
           <Label color="black">
-            <Icon
-              name="signal"
-              color={this.state.connected ? 'green' : 'red'}
-            />
-            Live updates are {!this.state.connected && 'not '}enabled!
+            <Icon name="signal" color={connected ? 'green' : 'red'} />
+            Live updates are {!connected && 'not'} enabled!
           </Label>
+          <br />
+          <Statistic>
+            <Statistic.Value>
+              {timestamp ? new Date(timestamp).toLocaleTimeString() : 'SYNCING'}
+            </Statistic.Value>
+            <Statistic.Label>
+              Server time ({timestamp ? `${delay}ms offset` : 'synchronizing'})
+            </Statistic.Label>
+          </Statistic>
         </Segment>
       </FullPageGrid>
     )
