@@ -4,6 +4,10 @@ const socket = io('https://indesy.atombyte.de/', {
   path: '/ws'
 })
 
+export function getSocket() {
+  return socket
+}
+
 export function connect(cb) {
   socket.on('connect', cb)
 }
