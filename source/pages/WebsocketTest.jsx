@@ -35,11 +35,8 @@ class WebSocketTest extends React.Component {
     return (
       <FullPageGrid>
         <Segment raised>
-          <Header as="h3">
-            <Icon name="exchange" />
-            <Header.Content>Websocket Test</Header.Content>
-          </Header>
-          <Label color="black">
+          <Header as="h1">Websocket Test</Header>
+          <Label color="black" size="large">
             <Icon name="signal" color={connected ? 'green' : 'red'} />
             Live updates are {!connected && 'not'} enabled!
           </Label>
