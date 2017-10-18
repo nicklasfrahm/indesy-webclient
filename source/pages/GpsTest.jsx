@@ -2,7 +2,6 @@ import React from 'react'
 import { Button, Segment, Header, Icon, Table, Label } from 'semantic-ui-react'
 import { geolocated } from 'react-geolocated'
 import { getGoogleCoords } from '../util'
-
 import FullPageGrid from '../components/FullPageGrid'
 
 const GpsTest = props => {
