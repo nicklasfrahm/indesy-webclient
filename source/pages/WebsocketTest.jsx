@@ -7,25 +7,41 @@ import {
   Label,
   Statistic
 } from 'semantic-ui-react'
-import { getSocket, connect, disconnect, testTimer } from '../socketio'
-
+import socket from '../socketio'
 import FullPageGrid from '../components/FullPageGrid'
 
 class WebSocketTest extends React.Component {
   constructor(props) {
     super()
-    this.state = { connected: getSocket().connected, timestamp: null }
-    connect(() =>
-      this.setState(Object.assign({}, this.state, { connected: true }))
-    )
-    disconnect(() =>
-      this.setState(Object.assign({}, this.state, { connected: true }))
-    )
-    testTimer(data =>
-      this.setState(
-        Object.assign({}, this.state, { timestamp: data.timestamp })
-      )
-    )
+    this.socket = socket
+    this.state = { connected: this.socket.connected, timestamp: null }
+    this.connectHandler = this.connectHandler.bind(this)
+    this.disconnectHandler = this.disconnectHandler.bind(this)
+    this.testTimerHandler = this.testTimerHandler.bind(this)
+  }
+
+  connectHandler() {
+    this.setState({ connected: true })
+  }
+
+  disconnectHandler() {
+    this.setState({ connected: false })
+  }
+
+  testTimerHandler(data) {
+    this.setState({ timestamp: data.timestamp })
+  }
+
+  componentWillMount() {
+    this.socket.on('connect', this.connectHandler)
+    this.socket.on('disconnect', this.disconnectHandler)
+    this.socket.on('testTimer', this.testTimerHandler)
+  }
+
+  componentWillUnmount() {
+    this.socket.removeEventListener('connect', this.connectHandler)
+    this.socket.removeEventListener('disconnect', this.disconnectHandler)
+    this.socket.removeEventListener('testTimer', this.testTimerHandler)
   }
 
   render() {
