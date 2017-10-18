@@ -16,7 +16,7 @@ const GpsTest = props => {
         <Header as="h1">GPS Test</Header>
         <Label color="black" size="large">
           <Icon
-            name={props.isGeolocationAvailable ? 'crosshairs' : 'ban'}
+            name={props.isGeolocationAvailable ? 'map' : 'ban'}
             color={props.isGeolocationEnabled ? 'green' : 'red'}
           />
           GPS tracking is {!props.isGeolocationEnabled && 'not'}{' '}

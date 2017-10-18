@@ -37,7 +37,7 @@ class WebSocketTest extends React.Component {
         <Segment raised>
           <Header as="h1">Websocket Test</Header>
           <Label color="black" size="large">
-            <Icon name="signal" color={connected ? 'green' : 'red'} />
+            <Icon name="feed" color={connected ? 'green' : 'red'} />
             Live updates are {!connected && 'not'} enabled!
           </Label>
           <br />
