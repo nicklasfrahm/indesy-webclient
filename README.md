@@ -13,6 +13,10 @@ npm install
 npm start
 ```
 
+**Note:** The build depends on the environment variable `API_URL`. By default `http://localhost:8000` is used. If you want to connect to the production server instead, simply set the environment variable before running your build or `npm start`:
+- On Windows: `set API_URL=https://api.example.com`
+- On Linux / macOS: `export API_URL=https://api.example.com`
+
 ## Build
 The build will be run by webpack and the files will be written to the `build` directory. To run the build, simply execute:
 ```shell
