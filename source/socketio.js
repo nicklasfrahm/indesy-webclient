@@ -1,8 +1,8 @@
 import io from 'socket.io-client'
+import { API_URL } from './endpoints'
 
-const apiUrl = process.env.API_URL
-const socket = io(apiUrl, { path: '/sio' })
+const socket = io(API_URL, { path: '/sio' })
 
-console.log('[SIO] API Server: %s', apiUrl)
+console.log(`[SIO] API Server: ${API_URL}`)
 
 export default socket
