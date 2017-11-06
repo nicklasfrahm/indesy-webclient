@@ -22,13 +22,13 @@ class CreateRobot extends React.Component {
   }
 
   updateRobotName(event, data) {
-    this.setState({ name: data.value.trim(), error: false })
+    this.setState({ name: data.value, error: false })
   }
 
   createRobot() {
     axios
       .post(ROBOT_ENDPOINT, {
-        name: this.state.name
+        name: this.state.name.trim()
       })
       .then(response => this.props.updateHandler)
       .catch(this.props.errorHandler)
