@@ -1,25 +1,26 @@
 import React from 'react'
-import { Segment, Table, Header, Modal, Button } from 'semantic-ui-react'
-import FullPageGrid from '../components/FullPageGrid'
 import axios from 'axios'
+import { Segment, Table, Header, Message } from 'semantic-ui-react'
+import FullPageGrid from '../components/FullPageGrid'
+import CreateRobot from '../components/CreateRobot'
 import { ROBOT_ENDPOINT } from '../endpoints'
 
 class RobotsPage extends React.Component {
   constructor() {
     super()
-    this.state = { robots: [], loading: true, isModalOpen: false }
+    this.state = { robots: [], loading: true, error: '' }
     this.timer = null
     this.readRobots = this.readRobots.bind(this)
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
+    this.displayError = this.displayError.bind(this)
+    this.hideError = this.hideError.bind(this)
   }
 
-  openModal() {
-    this.setState({ isModalOpen: true })
+  displayError(err) {
+    this.setState({ error: err.response.data.error })
   }
 
-  closeModal() {
-    this.setState({ isModalOpen: false })
+  hideError() {
+    this.setState({ error: '' })
   }
 
   readRobots() {
@@ -28,7 +29,7 @@ class RobotsPage extends React.Component {
       .then(response =>
         this.setState({ robots: response.data, loading: false })
       )
-      .catch(console.log)
+      .catch(this.displayError)
   }
 
   componentWillMount() {
@@ -41,9 +42,17 @@ class RobotsPage extends React.Component {
   }
 
   render() {
-    const { robots, loading, isModalOpen } = this.state
+    const { robots, loading, error } = this.state
     return (
       <FullPageGrid>
+        {error && (
+          <Message
+            error
+            onDismiss={this.hideError}
+            content={error}
+            error={!!error}
+          />
+        )}
         <Segment raised loading={loading}>
           <Header as="h1">Robots</Header>
           <Table celled>
@@ -55,6 +64,7 @@ class RobotsPage extends React.Component {
                 <Table.HeaderCell>X Position</Table.HeaderCell>
                 <Table.HeaderCell>Y Position</Table.HeaderCell>
                 <Table.HeaderCell>Angle</Table.HeaderCell>
+                <Table.HeaderCell>Token</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -67,6 +77,7 @@ class RobotsPage extends React.Component {
                     <Table.Cell>{robot.xPos}</Table.Cell>
                     <Table.Cell>{robot.yPos}</Table.Cell>
                     <Table.Cell>{robot.angle}</Table.Cell>
+                    <Table.Cell>{robot.token}</Table.Cell>
                   </Table.Row>
                 ))
               ) : (
@@ -76,28 +87,10 @@ class RobotsPage extends React.Component {
               )}
             </Table.Body>
           </Table>
-          <Modal
-            open={isModalOpen}
-            onClose={this.closeModal}
-            trigger={
-              <Button onClick={this.openModal} color="black">
-                Add robot
-              </Button>
-            }
-          >
-            <Modal.Header content="Add robot" />
-            <Modal.Content>
-              <p>Soon you can add robots here!</p>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button color="red" onClick={this.closeModal}>
-                Cancel
-              </Button>
-              <Button color="green" onClick={this.closeModal}>
-                Add robot
-              </Button>
-            </Modal.Actions>
-          </Modal>
+          <CreateRobot
+            updateHandler={this.readRobots}
+            errorHandler={this.displayError}
+          />
         </Segment>
       </FullPageGrid>
     )
