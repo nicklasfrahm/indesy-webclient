@@ -60,7 +60,7 @@ class UpdateRobot extends React.Component {
             Cancel
           </Button>
           <Button color="green" onClick={this.createRobot}>
-            Add robot
+            Edit robot
           </Button>
         </Modal.Actions>
       </Modal>
