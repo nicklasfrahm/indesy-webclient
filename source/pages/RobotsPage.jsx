@@ -4,6 +4,7 @@ import { Segment, Table, Header, Message, Button } from 'semantic-ui-react'
 import FullPageGrid from '../components/FullPageGrid'
 import CreateRobot from '../components/CreateRobot'
 import UpdateRobot from '../components/UpdateRobot'
+import UpdateRobotToken from '../components/UpdateRobotToken'
 import { ROBOT_ENDPOINT } from '../endpoints'
 
 class RobotsPage extends React.Component {
@@ -129,6 +130,11 @@ class RobotsPage extends React.Component {
                         color="blue"
                         icon={toggleTokenVisibilityIcon(robot._id)}
                         onClick={() => this.toggleTokenVisibility(robot._id)}
+                      />
+                      <UpdateRobotToken
+                        entity={robot}
+                        updateHandler={this.readRobots}
+                        errorHandler={this.displayError}
                       />
                       <UpdateRobot
                         entity={robot}
