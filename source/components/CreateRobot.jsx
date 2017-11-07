@@ -22,17 +22,17 @@ class CreateRobot extends React.Component {
   }
 
   updateRobotName(event, data) {
-    this.setState({ name: data.value, error: false })
+    this.setState({ name: data.value })
   }
 
   createRobot() {
+    this.setState({ name: '', isModalOpen: false })
     axios
       .post(ROBOT_ENDPOINT, {
         name: this.state.name.trim()
       })
-      .then(response => this.props.updateHandler)
+      .then(response => this.props.updateHandler())
       .catch(this.props.errorHandler)
-    this.setState({ name: '', isModalOpen: false })
   }
 
   render() {

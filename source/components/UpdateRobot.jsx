@@ -22,17 +22,17 @@ class UpdateRobot extends React.Component {
   }
 
   updateRobotName(event, data) {
-    this.setState({ name: data.value, error: false })
+    this.setState({ name: data.value })
   }
 
   updateRobot() {
+    this.closeModal()
     axios
       .patch(`${ROBOT_ENDPOINT}/${this.props.entity._id}`, {
         name: this.state.name.trim()
       })
-      .then(response => this.props.updateHandler)
+      .then(response => this.props.updateHandler())
       .catch(this.props.errorHandler)
-    this.setState({ isModalOpen: false })
   }
 
   render() {
