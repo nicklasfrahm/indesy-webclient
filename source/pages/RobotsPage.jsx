@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Segment, Table, Header, Message, Button } from 'semantic-ui-react'
 import FullPageGrid from '../components/FullPageGrid'
 import CreateRobot from '../components/CreateRobot'
+import UpdateRobot from '../components/UpdateRobot'
 import { ROBOT_ENDPOINT } from '../endpoints'
 
 class RobotsPage extends React.Component {
@@ -44,7 +45,7 @@ class RobotsPage extends React.Component {
 
   hideRobotTokens(id, token) {
     if (!~this.state.visibleTokens.indexOf(id)) {
-      return token.replace(/[a-f0-9]/g, '*')
+      return token.replace(/[a-f0-9]/g, 'x')
     } else {
       return token
     }
@@ -114,13 +115,22 @@ class RobotsPage extends React.Component {
                     <Table.Cell collapsing>{robot.yPos}</Table.Cell>
                     <Table.Cell collapsing>{robot.angle}</Table.Cell>
                     <Table.Cell>
-                      {this.hideRobotTokens(robot._id, robot.token)}
+                      <b>
+                        <pre>
+                          {this.hideRobotTokens(robot._id, robot.token)}
+                        </pre>
+                      </b>
                     </Table.Cell>
                     <Table.Cell collapsing>
                       <Button
                         color="blue"
                         icon="eye"
                         onClick={() => this.toggleTokenVisibility(robot._id)}
+                      />
+                      <UpdateRobot
+                        entity={robot}
+                        updateHandler={this.readRobots}
+                        errorHandler={this.displayError}
                       />
                       <Button
                         color="red"
