@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Segment, Table, Header, Message } from 'semantic-ui-react'
+import { Segment, Table, Header, Message, Button } from 'semantic-ui-react'
 import FullPageGrid from '../components/FullPageGrid'
 import CreateRobot from '../components/CreateRobot'
 import { ROBOT_ENDPOINT } from '../endpoints'
@@ -8,11 +8,14 @@ import { ROBOT_ENDPOINT } from '../endpoints'
 class RobotsPage extends React.Component {
   constructor() {
     super()
-    this.state = { robots: [], loading: true, error: '' }
+    this.state = { robots: [], loading: true, error: '', visibleTokens: [] }
     this.timer = null
     this.readRobots = this.readRobots.bind(this)
+    this.deleteRobot = this.deleteRobot.bind(this)
     this.displayError = this.displayError.bind(this)
     this.hideError = this.hideError.bind(this)
+    this.hideRobotTokens = this.hideRobotTokens.bind(this)
+    this.toggleTokenVisibility = this.toggleTokenVisibility.bind(this)
   }
 
   displayError(err) {
@@ -30,6 +33,34 @@ class RobotsPage extends React.Component {
         this.setState({ robots: response.data, loading: false })
       )
       .catch(this.displayError)
+  }
+
+  deleteRobot(id) {
+    axios
+      .delete(`${ROBOT_ENDPOINT}/${id}`)
+      .then(response => this.readRobots())
+      .catch(this.displayError)
+  }
+
+  hideRobotTokens(id, token) {
+    if (!~this.state.visibleTokens.indexOf(id)) {
+      return token.replace(/[a-f0-9]/g, '*')
+    } else {
+      return token
+    }
+  }
+
+  toggleTokenVisibility(id) {
+    const index = this.state.visibleTokens.indexOf(id)
+    if (!~index) {
+      this.setState({ visibleTokens: [...this.state.visibleTokens, id] })
+    } else {
+      this.setState({
+        visibleTokens: this.state.visibleTokens.filter(
+          visibleToken => visibleToken !== id
+        )
+      })
+    }
   }
 
   componentWillMount() {
@@ -55,6 +86,10 @@ class RobotsPage extends React.Component {
         )}
         <Segment raised loading={loading}>
           <Header as="h1">Robots</Header>
+          <CreateRobot
+            updateHandler={this.readRobots}
+            errorHandler={this.displayError}
+          />
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -65,6 +100,7 @@ class RobotsPage extends React.Component {
                 <Table.HeaderCell>Y Position</Table.HeaderCell>
                 <Table.HeaderCell>Angle</Table.HeaderCell>
                 <Table.HeaderCell>Token</Table.HeaderCell>
+                <Table.HeaderCell>Actions</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -74,10 +110,24 @@ class RobotsPage extends React.Component {
                     <Table.Cell>{robot.name || 'not available'}</Table.Cell>
                     <Table.Cell>{robot.status || 'not available'}</Table.Cell>
                     <Table.Cell>{robot.map || 'not available'}</Table.Cell>
-                    <Table.Cell>{robot.xPos}</Table.Cell>
-                    <Table.Cell>{robot.yPos}</Table.Cell>
-                    <Table.Cell>{robot.angle}</Table.Cell>
-                    <Table.Cell>{robot.token}</Table.Cell>
+                    <Table.Cell collapsing>{robot.xPos}</Table.Cell>
+                    <Table.Cell collapsing>{robot.yPos}</Table.Cell>
+                    <Table.Cell collapsing>{robot.angle}</Table.Cell>
+                    <Table.Cell>
+                      {this.hideRobotTokens(robot._id, robot.token)}
+                    </Table.Cell>
+                    <Table.Cell collapsing>
+                      <Button
+                        color="blue"
+                        icon="eye"
+                        onClick={() => this.toggleTokenVisibility(robot._id)}
+                      />
+                      <Button
+                        color="red"
+                        icon="trash"
+                        onClick={() => this.deleteRobot(robot._id)}
+                      />
+                    </Table.Cell>
                   </Table.Row>
                 ))
               ) : (
@@ -87,10 +137,6 @@ class RobotsPage extends React.Component {
               )}
             </Table.Body>
           </Table>
-          <CreateRobot
-            updateHandler={this.readRobots}
-            errorHandler={this.displayError}
-          />
         </Segment>
       </FullPageGrid>
     )
