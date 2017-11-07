@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Modal, Form, Button } from 'semantic-ui-react'
+import { Modal, Form, Button, Icon } from 'semantic-ui-react'
 import { ROBOT_ENDPOINT } from '../endpoints'
 
 class CreateRobot extends React.Component {
@@ -43,6 +43,7 @@ class CreateRobot extends React.Component {
         onClose={this.closeModal}
         trigger={
           <Button onClick={this.openModal} color="black">
+            <Icon name="add" />
             Add robot
           </Button>
         }
