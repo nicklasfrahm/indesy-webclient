@@ -10,7 +10,8 @@ class RobotsPage extends React.Component {
   constructor() {
     super()
     this.state = { robots: [], loading: true, error: '', visibleTokens: [] }
-    this.timer = null
+    this.refreshInterval = null
+    this.errorTimeout = null
     this.readRobots = this.readRobots.bind(this)
     this.deleteRobot = this.deleteRobot.bind(this)
     this.displayError = this.displayError.bind(this)
@@ -19,12 +20,15 @@ class RobotsPage extends React.Component {
     this.toggleTokenVisibility = this.toggleTokenVisibility.bind(this)
   }
 
-  displayError(err) {
-    this.setState({ error: err.response.data.error })
-  }
-
   hideError() {
     this.setState({ error: '' })
+  }
+
+  displayError(err) {
+    const error =
+      (err.response && err.response.data.error) || 'An unknown error occured.'
+    this.setState({ error })
+    this.errorTimeout = setTimeout(() => this.hideError(), 10000)
   }
 
   readRobots() {
@@ -65,12 +69,14 @@ class RobotsPage extends React.Component {
   }
 
   componentWillMount() {
-    this.timer = setInterval(() => this.readRobots(), 1000)
+    this.refreshInterval = setInterval(() => this.readRobots(), 1000)
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer)
-    this.timer = null
+    clearInterval(this.refreshInterval)
+    clearTimeout(this.errorTimeout)
+    this.refreshInterval = null
+    this.errorTimeout = null
   }
 
   render() {
@@ -80,12 +86,7 @@ class RobotsPage extends React.Component {
     return (
       <FullPageGrid>
         {error && (
-          <Message
-            error
-            onDismiss={this.hideError}
-            content={error}
-            error={!!error}
-          />
+          <Message onDismiss={this.hideError} content={error} error={!!error} />
         )}
         <Segment raised loading={loading}>
           <Header as="h1">Robots</Header>

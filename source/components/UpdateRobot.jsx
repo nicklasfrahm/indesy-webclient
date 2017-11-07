@@ -10,7 +10,7 @@ class UpdateRobot extends React.Component {
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.updateRobotName = this.updateRobotName.bind(this)
-    this.createRobot = this.createRobot.bind(this)
+    this.updateRobot = this.updateRobot.bind(this)
   }
 
   openModal() {
@@ -25,7 +25,7 @@ class UpdateRobot extends React.Component {
     this.setState({ name: data.value, error: false })
   }
 
-  createRobot() {
+  updateRobot() {
     axios
       .patch(`${ROBOT_ENDPOINT}/${this.props.entity._id}`, {
         name: this.state.name.trim()
@@ -47,7 +47,7 @@ class UpdateRobot extends React.Component {
       >
         <Modal.Header content="Edit robot" />
         <Modal.Content>
-          <Form onSubmit={this.createRobot}>
+          <Form onSubmit={this.updateRobot}>
             <Form.Input
               onChange={this.updateRobotName}
               placeholder="Robot name"
@@ -59,7 +59,7 @@ class UpdateRobot extends React.Component {
           <Button color="red" onClick={this.closeModal}>
             Cancel
           </Button>
-          <Button color="green" onClick={this.createRobot}>
+          <Button color="green" onClick={this.updateRobot}>
             Edit robot
           </Button>
         </Modal.Actions>
