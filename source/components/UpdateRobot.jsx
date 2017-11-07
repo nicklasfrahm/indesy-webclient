@@ -32,7 +32,7 @@ class UpdateRobot extends React.Component {
       })
       .then(response => this.props.updateHandler)
       .catch(this.props.errorHandler)
-    this.setState({ name: '', isModalOpen: false })
+    this.setState({ isModalOpen: false })
   }
 
   render() {
