@@ -74,7 +74,9 @@ class RobotsPage extends React.Component {
   }
 
   render() {
-    const { robots, loading, error } = this.state
+    const { robots, loading, error, visibleTokens } = this.state
+    const toggleTokenVisibilityIcon = id =>
+      !~visibleTokens.indexOf(id) ? 'unhide' : 'hide'
     return (
       <FullPageGrid>
         {error && (
@@ -124,7 +126,7 @@ class RobotsPage extends React.Component {
                     <Table.Cell collapsing>
                       <Button
                         color="blue"
-                        icon="eye"
+                        icon={toggleTokenVisibilityIcon(robot._id)}
                         onClick={() => this.toggleTokenVisibility(robot._id)}
                       />
                       <UpdateRobot
