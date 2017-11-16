@@ -1,5 +1,5 @@
 defaults: &defaults
-  working_directory: ~/indoor-delivery-system
+  working_directory: ~/indesy-webclient
   docker:
     - image: circleci/node:7.10
 version: 2
@@ -23,20 +23,20 @@ jobs:
           name: "Build Application"
           command: npm run build
       - persist_to_workspace:
-          root: ~/indoor-delivery-system
+          root: ~/indesy-webclient
           paths:
             - build/*
   deploy:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: ~/indoor-delivery-system
+          at: ~/indesy-webclient
       - run:
           name: "Prepare Deployment"
-          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@indesy.atombyte.de 'rm -r /var/www/html/indesy.atombyte.de/* || true'
+          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@${SERVER} 'rm -r /var/www/html/indesy.atombyte.de/* ||:'
       - run:
           name: "Deploy to Production"
-          command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indoor-delivery-system/build/* root@indesy.atombyte.de:/var/www/html/indesy.atombyte.de/
+          command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indesy-webclient/build/* root@${SERVER}:/var/www/html/indesy.atombyte.de/
 workflows:
   version: 2
   build-and-deploy:
