@@ -152,7 +152,7 @@ class RobotsPage extends React.Component {
               ) : (
                 <Table.Row>
                   <Table.Cell>
-                    <b>No robots added yet!</b>
+                    <b>There are no robots added yet.</b>
                   </Table.Cell>
                 </Table.Row>
               )}
