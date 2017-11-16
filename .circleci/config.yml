@@ -33,7 +33,7 @@ jobs:
           at: ~/indesy-webclient
       - run:
           name: "Prepare Deployment"
-          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@${SERVER} 'rm -r /var/www/html/${HOST_URL}/* ||:'
+          command: ssh -p 61000 -o "StrictHostKeyChecking no" root@${SERVER} "rm -r /var/www/html/${HOST_URL}/* ||:"
       - run:
           name: "Deploy to Production"
           command: scp -P 61000 -o "StrictHostKeyChecking no" -r ~/indesy-webclient/build/* root@${SERVER}:/var/www/html/${HOST_URL}/
