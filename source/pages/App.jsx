@@ -2,8 +2,8 @@ import React from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { HashRouter, Switch, Route, Redirect, NavLink } from 'react-router-dom'
 import GpsTest from './GpsTest'
-import WebSocketTest from './WebsocketTest'
 import RobotsPage from './RobotsPage'
+import ControlPanel from './ControlPanel'
 
 const App = props => (
   <HashRouter>
@@ -16,10 +16,10 @@ const App = props => (
             </Dropdown.Item>
             <Dropdown.Item
               as={NavLink}
-              to="/websocket-test"
+              to="/control-panel"
               activeClassName="active"
             >
-              Websocket Test
+              Control Panel
             </Dropdown.Item>
             <Dropdown.Item as={NavLink} to="/robots" activeClassName="active">
               Robots
@@ -31,8 +31,8 @@ const App = props => (
       <Switch>
         <Route exact path="/robots" component={RobotsPage} />
         <Route exact path="/gps-test" component={GpsTest} />
-        <Route exact path="/websocket-test" component={WebSocketTest} />
-        <Redirect to="/websocket-test" />
+        <Route exact path="/control-panel" component={ControlPanel} />
+        <Redirect to="/control-panel" />
       </Switch>
     </div>
   </HashRouter>
